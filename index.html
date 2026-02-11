@@ -12,7 +12,9 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    background: url('douche.jpeg') no-repeat center center/cover; /* Change avec ton image */
+    /* MOSAÏQUE */
+    background: url('douche.jpeg') repeat; 
+    background-size: 150px auto; /* ajuste la taille de chaque tuile */
 }
 
 .container {
@@ -42,7 +44,7 @@ button {
 
 #no {
     background-color: #ccc;
-    position: relative;
+    position: absolute; /* IMPORTANT pour pouvoir bouger */
 }
 
 .message {
