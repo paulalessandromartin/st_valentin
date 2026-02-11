@@ -12,16 +12,17 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    background: url('otarie.jpeg') no-repeat center center/cover; /* Mets ici le chemin de ton image */
+    background: url('douche.jpeg') no-repeat center center/cover; /* Change avec ton image */
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.9); /* semi-transparente pour voir le fond */
+    background: rgba(255, 255, 255, 0.9);
     padding: 40px;
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     position: relative;
+    width: 300px;
 }
 
 button {
@@ -41,22 +42,31 @@ button {
 
 #no {
     background-color: #ccc;
-}
-
-.pulse {
-    animation: pulse 0.6s ease-in-out;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-    100% { transform: scale(1); }
+    position: relative;
 }
 
 .message {
-    margin-top: 15px;
+    margin-top: 20px;
     font-style: italic;
     color: #333;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes heartPulse {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: heartPulse 0.6s ease-in-out;
 }
 </style>
 </head>
@@ -75,14 +85,25 @@ const yesButton = document.getElementById("yes");
 const messagesDiv = document.getElementById("messages");
 
 const messages = [
-    "Are you sure?",
-    "Why not though?",
-    "I'm sure you were joking",
-    "Life is too bad without you"
+    "Why? I thought you like me",
+    "I can be your TukTuk...",
+    "I can drive you to that shower in Sicilia",
+    "WHY ???"
+    "AAAAAAAAAAHHHHHH"
+    "NNNOOOOOOOOO"
+    "You don't have a choice anyway"
+    "You will have to say yes"
+    "You don't believe me ?"
+    "I'll prove it to you"
+    "Omg"
+    "pls"
+    "fuck you"
+    "I will win"
 ];
 
 let messageIndex = 0;
 
+// Fonction pour déplacer le bouton No
 function moveNoButton() {
     const container = document.querySelector(".container");
     const containerRect = container.getBoundingClientRect();
@@ -93,45 +114,46 @@ function moveNoButton() {
     const randomX = Math.random() * maxX;
     const randomY = Math.random() * maxY;
     
-    noButton.style.position = "absolute";
     noButton.style.left = randomX + "px";
     noButton.style.top = randomY + "px";
 }
 
-// Quand on passe la souris sur le bouton "No"
+// Fonction pour afficher le message avec animation
+function showMessage(text) {
+    messagesDiv.innerHTML = ''; // Supprime l'ancien message
+    const msg = document.createElement("div");
+    msg.classList.add("message");
+    msg.textContent = text;
+    messagesDiv.appendChild(msg);
+}
+
+// Survol du bouton No
 noButton.addEventListener("mouseover", function() {
     if(messageIndex >= messages.length){
-        moveNoButton(); // fuit définitivement après les messages
+        moveNoButton(); // Fuit définitivement après les messages
     }
 });
 
-// Quand on clique sur "No"
+// Clic sur le bouton No
 noButton.addEventListener("click", function() {
     if(messageIndex < messages.length) {
-        // Affiche le message suivant
-        const msg = document.createElement("div");
-        msg.classList.add("message");
-        msg.textContent = messages[messageIndex];
-        messagesDiv.appendChild(msg);
+        showMessage(messages[messageIndex]);
         messageIndex++;
         
-        // Pulse le bouton "Yes"
+        // Pulse le bouton Yes
         yesButton.classList.add("pulse");
-        setTimeout(() => {
-            yesButton.classList.remove("pulse");
-        }, 600);
-
-        // Agrandir légèrement le bouton "Yes"
+        setTimeout(() => yesButton.classList.remove("pulse"), 600);
+        
+        // Agrandir légèrement le bouton Yes
         const currentScale = yesButton.style.transform.replace(/[^0-9.]/g, '') || 1;
         const newScale = parseFloat(currentScale) + 0.1;
         yesButton.style.transform = `scale(${newScale})`;
     } else {
-        // Fuit si plus de messages
-        moveNoButton();
+        moveNoButton(); // Fuit si plus de messages
     }
 });
 
-// Quand on clique sur "Yes"
+// Clic sur le bouton Yes
 yesButton.addEventListener("click", function() {
     window.location.href = "love.html";
 });
