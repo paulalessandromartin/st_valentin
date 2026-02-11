@@ -7,7 +7,7 @@
 body {
     /* FOND MOSAÏQUE */
     background: url('dog.jpg') repeat;   /* image répétée */
-    background-size: 200px 200px;             /* taille d'une tuile, ajuste selon ton image */
+    background-size: 200px 200px;        /* taille d'une tuile */
     
     display: flex;
     justify-content: center;
@@ -19,6 +19,16 @@ body {
     text-align: center;
 }
 
+/* Conteneur pour le texte et l'image */
+.content {
+    background: rgba(0, 0, 0, 0.7);  /* noir semi-transparent */
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 img {
     max-width: 300px;
     border-radius: 20px;
@@ -28,11 +38,14 @@ img {
 </head>
 <body>
 
-<h1>Sevgiliiiim ❤️</h1>
-<p>Seni gôrmek için sabirsizlaniyorum 💕</p>
-<p>I came 💦</p>
+<div class="content">
+    <h1>Sevgiliiiim ❤️</h1>
+    <p>Seni gôrmek için sabirsizlaniyorum 💕</p>
+    <p>I came 💦</p>
 
-<img src="kiss.jpg" alt="kiss">
+    <img src="kiss.jpg" alt="kiss">
+</div>
 
 </body>
 </html>
+
