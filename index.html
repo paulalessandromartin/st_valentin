@@ -12,9 +12,8 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    /* MOSAÏQUE */
     background: url('douche.jpeg') repeat; 
-    background-size: 150px auto; /* ajuste la taille de chaque tuile */
+    background-size: 150px auto;
 }
 
 .container {
@@ -34,17 +33,18 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.2s ease;
 }
 
 #yes {
     background-color: #ff4d6d;
     color: white;
+    display: none; /* invisible au début */
+    animation: heartPulse 1s ease-in-out infinite;
 }
 
 #no {
     background-color: #ccc;
-    position: absolute; /* IMPORTANT pour pouvoir bouger */
+    position: absolute; /* pour pouvoir bouger */
 }
 
 .message {
@@ -60,16 +60,16 @@ button {
 }
 
 @keyframes heartPulse {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.2); }
+    0%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.2); }
     50% { transform: scale(1); }
-    75% { transform: scale(1.2); }
-    100% { transform: scale(1); }
 }
 
-.pulse {
-    animation: heartPulse 0.6s ease-in-out;
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
+
 </style>
 </head>
 <body>
@@ -105,7 +105,7 @@ const messages = [
 
 let messageIndex = 0;
 
-// Fonction pour déplacer le bouton No
+// Déplacer le bouton No de manière rebondissante
 function moveNoButton() {
     const container = document.querySelector(".container");
     const containerRect = container.getBoundingClientRect();
@@ -118,46 +118,47 @@ function moveNoButton() {
     
     noButton.style.left = randomX + "px";
     noButton.style.top = randomY + "px";
+    noButton.style.animation = "bounce 0.3s";
+    setTimeout(() => noButton.style.animation = "", 300);
 }
 
-// Fonction pour afficher le message avec animation
+// Afficher le message
 function showMessage(text) {
-    messagesDiv.innerHTML = ''; // Supprime l'ancien message
+    messagesDiv.innerHTML = '';
     const msg = document.createElement("div");
     msg.classList.add("message");
     msg.textContent = text;
     messagesDiv.appendChild(msg);
 }
 
-// Survol du bouton No
+// Survol du No (fuite finale)
 noButton.addEventListener("mouseover", function() {
     if(messageIndex >= messages.length){
-        moveNoButton(); // Fuit définitivement après les messages
+        moveNoButton();
     }
 });
 
-// Clic sur le bouton No
+// Clic sur No
 noButton.addEventListener("click", function() {
     if(messageIndex < messages.length) {
         showMessage(messages[messageIndex]);
         messageIndex++;
-        
-        // Pulse le bouton Yes
-        yesButton.classList.add("pulse");
-        setTimeout(() => yesButton.classList.remove("pulse"), 600);
-        
-        // Agrandir légèrement le bouton Yes
-        const currentScale = yesButton.style.transform.replace(/[^0-9.]/g, '') || 1;
-        const newScale = parseFloat(currentScale) + 0.1;
-        yesButton.style.transform = `scale(${newScale})`;
+
+        moveNoButton(); // bouge à chaque clic
+
+        // Afficher Yes à partir du message 3
+        if(messageIndex >= 3) {
+            yesButton.style.display = 'inline-block';
+        }
     } else {
-        moveNoButton(); // Fuit si plus de messages
+        // Si tous les messages sont passés, continue à fuir
+        moveNoButton();
     }
 });
 
-// Clic sur le bouton Yes
+// Clic sur Yes
 yesButton.addEventListener("click", function() {
-    window.location.href = "love.html";
+    window.location.href = "ceylinbemyvalentine.html"; // nom de ton lien
 });
 </script>
 
